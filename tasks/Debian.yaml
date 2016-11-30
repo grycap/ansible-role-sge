@@ -1,0 +1,24 @@
+---
+- name: prevent the sge install dialogs
+  shell: echo {{ item }} | debconf-set-selections
+  with_items:
+  - "* shared/gridenginemaster select sgemaster"
+  - "* shared/gridenginecell select default"
+  - "* shared/gridengineconfig select true"
+  - "* postfix/main_mailer_type select No configuration"
+
+- name: Apt install common packages
+  apt: name=gridengine-common,gridengine-client  update_cache=yes
+
+- name: Apt install SGE in Deb system
+  apt: name=gridengine-master
+  when: sge_type_of_node == "front"
+
+- name: Apt install SGE
+  apt: name=gridengine-exec
+  when: sge_type_of_node == "wn"
+
+- name: Set Debian facts
+  set_fact:
+    SGE_ROOT: /var/lib/gridengine
+    EXEC_SERVICE: gridengine-exec

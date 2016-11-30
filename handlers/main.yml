@@ -1,0 +1,5 @@
+- name: restart gridengine-exec
+  service: name=gridengine-exec state=restarted pattern=/usr/lib/gridengine/sge_execd
+
+- name: restart sge_execd
+  service: name=sge_execd state=restarted pattern=/usr/bin/sge_execd

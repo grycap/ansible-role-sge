@@ -1,0 +1,12 @@
+---
+- name: create epel.repo
+  template: src=utils/templates/epel-es.repo dest=/etc/yum.repos.d/epel.repo
+  when: ansible_os_family == "RedHat"
+
+- name: Yum install SGE in REL system
+  yum: name=gridengine,gridengine-execd,openssh-clients
+
+- name: Set RedHat facts
+  set_fact:
+    SGE_ROOT: /usr/lib/gridengine
+    EXEC_SERVICE: sge_execd

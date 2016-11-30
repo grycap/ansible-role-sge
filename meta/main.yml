@@ -1,0 +1,16 @@
+galaxy_info:
+  author: alpegon3@upv.es
+  description: Install SGE cluster
+  company:  GRyCAP
+  license: Apache
+  min_ansible_version: 2.0
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  galaxy_tags:
+    - sge
+    - lrms
+dependencies:
+  - { role: 'resmo.ntp', ntp_config_server: [ntp.upv.es, ntp.uv.es] }
+  - { role: 'grycap.ssh', ssh_type_of_node: "{{ sge_type_of_node }}", ssh_user: "{{ sge_ssh_user }}" }
