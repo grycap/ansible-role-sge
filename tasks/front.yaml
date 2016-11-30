@@ -8,7 +8,7 @@
 # Manage the /etc/hosts file
 - shell: |
     for i in `seq 1 {{NNODES}}`; do
-      item="vnode${i}";
+      item="{{vnode_prefix}}${i}";
       grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
     done
 
