@@ -1,22 +1,11 @@
 ---
-# SLURM version to install (in case of RH systems)
-#slurm_version: 14.11.3
-slurm_version: 16.05.5
 # Type of node to install: front or wn
 sge_type_of_node: front
-# Name of the SLURM server
-slurm_server_name: slurmserver
-# IP address of the SLURM server
-slurm_server_ip: 127.0.0.1
 # Prefix to set to the SLURM working nodes
 sge_vnode_prefix: wn
-# List of the name of the WNs
-slurm_wn_nodenames: []
 # Number of CPUs of the WNs
 sge_wn_cpus: 1
 # Default ssh user
 sge_ssh_user: grycap
-# Templates files
-templates: ""
 # Number of Maximun nodes
 max_number_of_nodes: 3
