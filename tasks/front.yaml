@@ -3,36 +3,37 @@
   copy: dest=/bin/is_cluster_ready src=is_cluster_ready mode=0755 force=no
 
 - name: Set hostname
-  command: hostname sgemaster
+  command: hostname {{sge_server_name}}
 
 # Manage the /etc/hosts file
-- shell: |
+- name: Edit /etc/hosts file
+  shell: |
     for i in `seq 1 {{NNODES}}`; do
       item="{{vnode_prefix}}${i}";
       grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
     done
 
 # SGE configuration Specific tasks
-- command: qconf -as sgemaster
+- command: qconf -as {{sge_server_name}}
 
 - copy:
     content: |
-       hostname vnode{{item}}.localdomain
+       hostname {{vnode_prefix}}{{item}}.localdomain
        {{NODE_DEF}}
-    dest: /tmp/vnode{{item}}.def
+    dest: /tmp/{{vnode_prefix}}{{item}}.def
   with_sequence: start=1 end={{NNODES}}
 
-- shell: qconf -se vnode{{item}} || qconf -Ae /tmp/vnode{{item}}.def
+- shell: qconf -se {{vnode_prefix}}{{item}} || qconf -Ae /tmp/{{vnode_prefix}}{{item}}.def
   with_sequence: start=1 end={{NNODES}}
 
-- shell: qconf -ah vnode{{item}}
+- shell: qconf -ah {{vnode_prefix}}{{item}}
   with_sequence: start=1 end={{NNODES}}
 
 - copy: content="{{ALL_Q_CONF}}" dest=/tmp/all.q
 - copy:
     content: |
        group_name @allhosts
-       hostlist {% for number in range(1, NNODES|int + 1) %} vnode{{number}} {% endfor %}
+       hostlist {% for number in range(1, NNODES|int + 1) %} {{vnode_prefix}}{{number}} {% endfor %}
     dest: /tmp/allhosts.hgrp
 
 - shell: qconf -shgrp @allhosts || qconf -Ahgrp /tmp/allhosts.hgrp

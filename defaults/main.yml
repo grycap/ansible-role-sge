@@ -1,4 +1,6 @@
 ---
+# Name of the SLURM server
+sge_server_name: sgeserver
 # Type of node to install: front or wn
 sge_type_of_node: front
 # Prefix to set to the SLURM working nodes
