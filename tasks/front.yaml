@@ -24,7 +24,7 @@
 #  with_sequence: start=1 end={{max_number_of_nodes}}
 
 - name: Create the nodes config files
-  template: /tmp/{{vnode_prefix}}{{item}}.def src=node.def
+  template: dest=/tmp/{{vnode_prefix}}{{item}}.def src=node.def
   with_sequence: start=1 end={{max_number_of_nodes}}
 
 - shell: qconf -se {{vnode_prefix}}{{item}} || qconf -Ae /tmp/{{vnode_prefix}}{{item}}.def
