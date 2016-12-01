@@ -10,18 +10,11 @@
   shell: |
     for i in `seq 1 {{max_number_of_nodes}}`; do
       item="{{vnode_prefix}}${i}";
-      grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
+      grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item} ${item}.localdomain" >> /etc/hosts;
     done
 
 # SGE configuration Specific tasks
 - command: qconf -as {{sge_server_name}}
-
-#- copy:
-#    content: |
-#       hostname {{vnode_prefix}}{{item}}
-#       {{NODE_DEF}}
-#    dest: /tmp/{{vnode_prefix}}{{item}}.def
-#  with_sequence: start=1 end={{max_number_of_nodes}}
 
 - name: Create the nodes config files
   template: dest=/tmp/{{vnode_prefix}}{{item}}.def src=node.def
