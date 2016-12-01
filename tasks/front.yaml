@@ -18,7 +18,7 @@
 
 - copy:
     content: |
-       hostname {{vnode_prefix}}{{item}}.localdomain
+       hostname {{vnode_prefix}}{{item}}
        {{NODE_DEF}}
     dest: /tmp/{{vnode_prefix}}{{item}}.def
   with_sequence: start=1 end={{NNODES}}
@@ -29,7 +29,10 @@
 - shell: qconf -ah {{vnode_prefix}}{{item}}
   with_sequence: start=1 end={{NNODES}}
 
-- copy: content="{{ALL_Q_CONF}}" dest=/tmp/all.q
+- name: Copy 'all_q.conf' file
+  copy: dest=/tmp/all.q src=all_q.conf mode=0644 force=no
+#  copy: content="{{ALL_Q_CONF}}" dest=/tmp/all.q
+
 - copy:
     content: |
        group_name @allhosts
