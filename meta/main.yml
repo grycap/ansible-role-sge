@@ -12,5 +12,5 @@ galaxy_info:
     - sge
     - lrms
 dependencies:
-  - { role: 'resmo.ntp', ntp_config_server: [ntp.upv.es, ntp.uv.es] }
+  - { role: 'grycap.ntp', ntp_config_server: [ntp.upv.es, ntp.uv.es] }
   - { role: 'grycap.ssh', ssh_type_of_node: "{{ sge_type_of_node }}", ssh_user: "{{ sge_ssh_user }}" }
