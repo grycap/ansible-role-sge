@@ -14,7 +14,7 @@ The variables that can be passed to this role and a brief description about them
 ```
 # Type of node to install: front or wn
 sge_type_of_node: front
-# Prefix to set to the SLURM working nodes
+# Prefix to set to the SGE working nodes
 sge_vnode_prefix: wn
 # Number of CPUs of the WNs
 sge_wn_cpus: 1
