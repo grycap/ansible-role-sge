@@ -20,18 +20,18 @@ sge_vnode_prefix: wn
 sge_wn_cpus: 1
 # Default ssh user
 sge_ssh_user: grycap
-# Number of Maximun nodes
+# Number of Maximum nodes
 max_number_of_nodes: 3
 ```
 
 Example Playbook
 ----------------
 
-This an example of how to install a SLURM cluster with three nodes:
+This an example of how to install a SGE cluster with three nodes:
 ```
 - hosts: server
   roles:
-  - { role: 'grycap.sge', max_number_of_nodes: '3' }
+  - { role: 'grycap.sge', sge_type_of_node: 'front' }
 ```
 Contributing to the role
 ========================
