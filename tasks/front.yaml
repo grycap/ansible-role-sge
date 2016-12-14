@@ -5,6 +5,14 @@
 - name: Set hostname
   command: hostname {{sge_server_name}}
 
+# Manage the /etc/hosts file
+- name: Edit /etc/hosts file
+  shell: |
+    for i in `seq 1 {{max_number_of_nodes}}`; do
+      item="{{vnode_prefix}}${i}";
+      grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item} ${item}.localdomain" >> /etc/hosts;
+    done
+
 # SGE configuration Specific tasks
 - command: qconf -as {{sge_server_name}}
 
