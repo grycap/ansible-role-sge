@@ -20,10 +20,10 @@
   template: dest=/tmp/{{vnode_prefix}}{{item}}.def src=node.def
   with_sequence: start=1 end={{max_number_of_nodes}}
 
-- shell: qconf -se {{vnode_prefix}}{{item}} || qconf -Ae /tmp/{{vnode_prefix}}{{item}}.def
+- shell: qconf -se {{vnode_prefix}}{{item}}.localdomain || qconf -Ae /tmp/{{vnode_prefix}}{{item}}.def
   with_sequence: start=1 end={{max_number_of_nodes}}
 
-- shell: qconf -ah {{vnode_prefix}}{{item}}
+- shell: qconf -ah {{vnode_prefix}}{{item}}.localdomain
   with_sequence: start=1 end={{max_number_of_nodes}}
 
 - name: Copy 'all_q.conf' file
