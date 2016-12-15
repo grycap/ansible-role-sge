@@ -1,4 +1,4 @@
-hostname {{vnode_prefix}}{{item}}
+hostname {{vnode_prefix}}{{item}}.localdomain
 load_scaling          NONE
 complex_values        NONE
 user_lists            NONE
