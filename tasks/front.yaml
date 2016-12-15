@@ -10,7 +10,7 @@
   shell: |
     for i in `seq 1 {{max_number_of_nodes}}`; do
       item="{{vnode_prefix}}${i}";
-      grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item} ${item}.localdomain" >> /etc/hosts;
+      grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain" ${item} >> /etc/hosts;
     done
 
 # SGE configuration Specific tasks
