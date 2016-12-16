@@ -9,3 +9,9 @@
   set_fact:
     SGE_ROOT: /usr/lib/gridengine
     EXEC_SERVICE: sge_execd
+
+- name: Add SGE variables to /etc/sudoers
+  lineinfile: 
+    dest: /etc/sudoers
+    line: 'Defaults    env_keep += "SGE_CELL SGE_ARCH SGE_EXECD_PORT SGE_QMASTER_PORT SGE_ROOT"'
+    state: present
