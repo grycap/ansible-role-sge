@@ -1,4 +1,9 @@
 ---
+  - name: Fail if OS distro is Centos 7.x
+    fail: 
+        msg="The role does not work with Centos 7.x"
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7
+
   - name: Include "{{ansible_os_family}}" SGE recipe
     include: "{{ansible_os_family}}.yaml"
 
