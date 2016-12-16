@@ -3,7 +3,7 @@
   template: src=utils/templates/epel-es.repo dest=/etc/yum.repos.d/epel.repo
 
 - name: Yum install SGE in REL system
-  yum: name=gridengine,gridengine-execd,openssh-clients
+  yum: name=gridengine,gridengine-execd,openssh-clients,gridengine-qmaster,gridengine-qmon
 
 - name: Set RedHat facts
   set_fact:
