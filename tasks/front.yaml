@@ -19,7 +19,10 @@
   action: shell cd /usr/share/gridengine; ./install_qmaster -auto ./my_configuration.conf creates=/usr/share/gridengine/default/common/cluster_name
   when: ansible_os_family == "RedHat"
 
-- command: qconf -as {{sge_server_name}}
+- name: add the frontend as submission host
+  action: shell bash -lc 'qconf -as {{sge_server_name}}'
+  ignore_errors: yes
+#- command: qconf -as {{sge_server_name}}
 
 - name: Create the nodes config files
   template: dest=/tmp/{{vnode_prefix}}{{item}}.def src=node.def
