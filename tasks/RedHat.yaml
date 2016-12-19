@@ -7,7 +7,7 @@
 
 - name: Set RedHat facts
   set_fact:
-    SGE_ROOT: /usr/lib/gridengine
+    SGE_ROOT: /usr/share/gridengine
     EXEC_SERVICE: sge_execd
 
 - name: Add SGE variables to /etc/sudoers
