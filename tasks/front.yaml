@@ -28,11 +28,19 @@
   template: dest=/tmp/{{vnode_prefix}}{{item}}.def src=node.def
   with_sequence: start=1 end={{max_number_of_nodes}}
 
-- shell: qconf -se {{vnode_prefix}}{{item}}.localdomain || qconf -Ae /tmp/{{vnode_prefix}}{{item}}.def
+#- shell: qconf -se {{vnode_prefix}}{{item}}.localdomain || qconf -Ae /tmp/{{vnode_prefix}}{{item}}.def
+#  with_sequence: start=1 end={{max_number_of_nodes}}
+- name: add execution hosts
+  action: shell bash -lc 'qconf -se {{vnode_prefix}}{{item}}.localdomain || qconf -Ae "/tmp/{{vnode_prefix}}{{item}}.def"'
   with_sequence: start=1 end={{max_number_of_nodes}}
+  ignore_errors: yes
 
-- shell: qconf -ah {{vnode_prefix}}{{item}}.localdomain
+#- shell: qconf -ah {{vnode_prefix}}{{item}}.localdomain
+#  with_sequence: start=1 end={{max_number_of_nodes}}
+- name: add execution hosts
+  action: shell bash -lc 'qconf -ah {{vnode_prefix}}{{item}}.localdomain'
   with_sequence: start=1 end={{max_number_of_nodes}}
+  ignore_errors: yes
 
 - name: Copy 'all_q.conf' file
   copy: dest=/tmp/all.q src=all_q.conf mode=0644 force=no
@@ -43,5 +51,12 @@
        hostlist {% for number in range(1, max_number_of_nodes|int + 1) %} {{vnode_prefix}}{{number}}.localdomain {% endfor %}
     dest: /tmp/allhosts.hgrp
 
-- shell: qconf -shgrp @allhosts || qconf -Ahgrp /tmp/allhosts.hgrp
-- shell: qconf -sq all.q || qconf -Aq /tmp/all.q
+#- shell: qconf -shgrp @allhosts || qconf -Ahgrp /tmp/allhosts.hgrp
+- name: add hosts to the default queue
+  action: shell bash -lc ' qconf -shgrp @allhosts || qconf -Ahgrp "/tmp/allhosts.hgrp"'
+  ignore_errors: yes
+
+#- shell: qconf -sq all.q || qconf -Aq /tmp/all.q
+- name: create default queue
+  action: shell bash -lc 'qconf -sq all.q || qconf -Aq /tmp/all.q'
+  ignore_errors: yes
