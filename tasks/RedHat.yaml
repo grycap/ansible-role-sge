@@ -4,11 +4,11 @@
 
 - name: Yum install SGE in REL system
   yum: name=gridengine,gridengine-execd,openssh-clients,gridengine-qmaster,gridengine-qmon
-  when: {{sge_type_of_node}} == 'front'
+  when: {{sge_type_of_node}} == "front"
  
 - name: Yum install SGE in REL system
   yum: name=gridengine-execd,openssh-clients
-  when: {{sge_type_of_node}} == 'wn'
+  when: {{sge_type_of_node}} == "wn"
 
 - name: Set RedHat facts
   set_fact:
