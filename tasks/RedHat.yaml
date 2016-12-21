@@ -1,14 +1,22 @@
 ---
+- block:
+  - name: Disable Centos6 Firewall 1 (For testing purposes only)
+    service: name=iptables state=stopped
+
+  - name: Disable Centos6 Firewall 2 (For testing purposes only)
+    command: chkconfig iptables off
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6
+ 
 - name: create epel.repo
   template: src=utils/templates/epel-es.repo dest=/etc/yum.repos.d/epel.repo
 
 - name: Yum install SGE in REL system
   yum: name=gridengine,gridengine-execd,openssh-clients,gridengine-qmaster,gridengine-qmon
-  #when: '{{sge_type_of_node == "front"}}'
+  when: '{{sge_type_of_node == "front"}}'
  
-#- name: Yum install SGE in REL system
-  #yum: name=gridengine-execd,openssh-clients
-  #when: '{{sge_type_of_node == "wn"}}'
+- name: Yum install SGE in REL system
+  yum: name=gridengine-execd,openssh-clients
+  when: '{{sge_type_of_node == "wn"}}'
 
 - name: Set RedHat facts
   set_fact:
