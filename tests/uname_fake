@@ -1,0 +1,13 @@
+#!/bin/bash
+
+case $1 in
+    -s) echo "Linux"
+	;;
+    -m) echo "x86_64"
+	;;
+    -r) echo "2.6.10"
+	;;
+    *)
+	echo "Linux"
+	;;
+esac
