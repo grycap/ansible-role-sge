@@ -26,7 +26,7 @@ before_install:
 script:
   - container_id=$(mktemp)
   # Run container in detached state.
-  - 'docker run --hostname sgemaster --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} grycap/travis:${distro} "${init}" > "${container_id}"'
+  - 'docker run --hostname sgeserver --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} grycap/travis:${distro} "${init}" > "${container_id}"'
 
   # install dependencies
   - 'docker exec "$(cat ${container_id})" ansible-galaxy install grycap.ntp grycap.ssh'
