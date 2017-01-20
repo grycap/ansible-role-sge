@@ -3,12 +3,49 @@
   yum: name=epel-release
 
 - name: Yum install SGE in REL system
-  yum: name=gridengine,gridengine-execd,openssh-clients,gridengine-qmaster,gridengine-qmon
-  when: '{{sge_type_of_node == "front"}}'
- 
-- name: Yum install SGE in REL system
-  yum: name=gridengine-execd,openssh-clients
-  when: '{{sge_type_of_node == "wn"}}'
+  yum: name=openssh-clients
+
+- block:
+  - name: Yum install SGE in REL system
+    yum: name=gridengine,gridengine-execd,gridengine-qmaster,gridengine-qmon
+    when: '{{sge_type_of_node == "front"}}'
+
+  - name: Yum install SGE in REL system
+    yum: name=gridengine-execd
+    when: '{{sge_type_of_node == "wn"}}'
+when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6
+
+- block:
+  - name: Copy required packages
+    copy: src=files/centos7/{{item}} dest=/tmp/{{item}}
+    with_items:
+      - gridengine-8.1.9-1.el7.centos.x86_64.rpm
+      - gridengine-debuginfo-8.1.9-1.el7.centos.x86_64.rpm
+      - gridengine-devl-8.1.9-1.el7.centos.noarch.rpm
+      - gridengine-drmaa4ruby-8.1.9-1.el7.centos.noarch.rpm
+      - gridengine-execd-8.1.9-1.el7.centos.x86_64.rpm
+      - gridengine-qmaster-8.1.9-1.el7.centos.x86_64.rpm
+      - gridengine-qmon-8.1.9-1.el7.centos.x86_64.rpm
+
+  - name: Install rpm sge packages in front nodes
+    yum:
+      name:
+        - "/tmp/gridengine-8.1.9-1.el7.centos.x86_64.rpm"
+        - "/tmp/gridengine-debuginfo-8.1.9-1.el7.centos.x86_64.rpm"
+        - "/tmp/gridengine-execd-8.1.9-1.el7.centos.x86_64.rpm"
+        - "/tmp/gridengine-qmaster-8.1.9-1.el7.centos.x86_64.rpm"
+        - "/tmp/gridengine-qmon-8.1.9-1.el7.centos.x86_64.rpm"
+      state: present
+      when: '{{sge_type_of_node == "front"}}'
+
+  - name: Install rpm slurm packages in wn nodes
+    yum:
+      name:
+        - "/tmp/gridengine-8.1.9-1.el7.centos.x86_64.rpm"
+        - "/tmp/gridengine-execd-8.1.9-1.el7.centos.x86_64.rpm"
+      state: present
+      when: '{{sge_type_of_node == "wn"}}'
+when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7
 
 - name: Set RedHat facts
   set_fact:
@@ -16,7 +53,7 @@
     EXEC_SERVICE: sge_execd
 
 - name: Add SGE variables to /etc/sudoers
-  lineinfile: 
+  lineinfile:
     dest: /etc/sudoers
     line: 'Defaults    env_keep += "SGE_CELL SGE_ARCH SGE_EXECD_PORT SGE_QMASTER_PORT SGE_ROOT"'
     state: present
