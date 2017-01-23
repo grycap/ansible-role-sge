@@ -21,6 +21,9 @@
     copy: src=centos7/{{item}} dest=/tmp/{{item}}
     with_items:
       - gridengine-8.1.9-1.el7.centos.x86_64.rpm
+      - gridengine-debuginfo-8.1.9-1.el7.centos.x86_64.rpm
+      - gridengine-devel-8.1.9-1.el7.centos.noarch.rpm
+      - gridengine-drmaa4ruby-8.1.9-1.el7.centos.noarch.rpm
       - gridengine-execd-8.1.9-1.el7.centos.x86_64.rpm
       - gridengine-qmaster-8.1.9-1.el7.centos.x86_64.rpm
       - gridengine-qmon-8.1.9-1.el7.centos.x86_64.rpm
@@ -29,6 +32,7 @@
     yum:
       name:
         - "/tmp/gridengine-8.1.9-1.el7.centos.x86_64.rpm"
+        - "/tmp/gridengine-debuginfo-8.1.9-1.el7.centos.x86_64.rpm"
         - "/tmp/gridengine-execd-8.1.9-1.el7.centos.x86_64.rpm"
         - "/tmp/gridengine-qmaster-8.1.9-1.el7.centos.x86_64.rpm"
         - "/tmp/gridengine-qmon-8.1.9-1.el7.centos.x86_64.rpm"
