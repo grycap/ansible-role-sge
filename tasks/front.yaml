@@ -17,11 +17,7 @@
 # specific tasks for Centos 6
 - name: qmaster installation (CentOS)
   action: shell cd /usr/share/gridengine; ./install_qmaster -auto ./my_configuration.conf creates=/usr/share/gridengine/default/common/cluster_name
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6
-
-- name: qmaster installation (CentOS)
-  action: shell cd /opt/sge; ./install_qmaster -auto ./my_configuration.conf creates=/usr/share/gridengine/default/common/cluster_name
-  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7
+  when: ansible_os_family == "RedHat"
 
 - name: add the frontend as submission host
   action: shell bash -lc 'qconf -as {{sge_server_name}}'
