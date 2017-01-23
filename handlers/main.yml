@@ -2,4 +2,4 @@
   service: name=gridengine-exec state=restarted pattern=/usr/lib/gridengine/sge_execd
 
 - name: restart sge_execd
-  service: name=sge_execd state=restarted pattern=/usr/bin/sge_execd
+  service: name=sge_execd state=restarted pattern={{SERVICE_PATTERN}}
