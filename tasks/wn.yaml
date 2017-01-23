@@ -1,8 +1,9 @@
 ---
-- name: create default directories
+- name: create default directories 
   file: path={{SGE_ROOT}}/default/common/ state=directory
-  when: ansible_os_family == "RedHat"
-
+  when: ansible_os_family == "RedHat" 
+  
 - name: Set the SGE qmaster node
   action: copy dest={{SGE_ROOT}}/default/common/act_qmaster content={{sge_server_name}}
-  notify: restart {{EXEC_SERVICE}}
+  notify:
+  - restart {{EXEC_SERVICE}}
